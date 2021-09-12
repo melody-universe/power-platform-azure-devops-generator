@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - %MODULE_NAME%/content/*
+
+pool:
+  vmImage: windows-latest
+
+steps:
+  - task: MSCRMToolInstaller@12
+  - task: MSCRMPackCMData@12
+    inputs:
+      dataFile: "$(Pipeline.Workspace)/data.zip"
+      extractFolder: "%MODULE_NAME%/content"
+      combineDataXmlFile: true
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: "$(Pipeline.Workspace)/data.zip"
+      artifact: "data"
+      publishLocation: "pipeline"

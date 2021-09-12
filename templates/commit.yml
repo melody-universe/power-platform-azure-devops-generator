@@ -1,0 +1,46 @@
+trigger: none
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  - group: Credentials
+  - group: Dev
+  - group: ConnectionString
+
+steps:
+  - checkout: self
+    persistCredentials: true
+  - pwsh: |
+      git checkout ("$(Build.SourceBranch)" -Replace "^refs/heads/", "")
+      git config user.name "$(Build.RequestedFor)"
+      git config user.email "$(Build.RequestedForEmail)"
+    name: ConfigGit
+  - task: MSCRMToolInstaller@12
+  - pwsh: mkdir "$(Pipeline.Workspace)/logs"
+    name: CreateLogsDirectory
+  - task: MSCRMExportCMData@12
+    inputs:
+      crmConnectionString: "$(ConnectionString)"
+      schemaFile: "%MODULE_NAME%/schema.xml"
+      dataFile: "$(Pipeline.Workspace)/%MODULE_NAME%_data.zip"
+      crmConnectionTimeout: "10"
+      logsDirectory: "$(Pipeline.Workspace)/logs"
+  - task: PublishPipelineArtifact@1
+    condition: always()
+    inputs:
+      targetPath: "$(Pipeline.Workspace)/logs"
+      artifact: "logs"
+      publishLocation: "pipeline"
+    name: PublishLogs
+  - task: MSCRMExtractCMData@12
+    inputs:
+      dataFile: "$(Pipeline.Workspace)/%MODULE_NAME%_data.zip"
+      extractFolder: "%MODULE_NAME%/content"
+      sortExtractedData: true
+      splitExtractedData: true
+  - pwsh: |
+      git add .
+      git commit -m "automated commit from build $(Build.BuildId)"
+      git push
+    name: Commit

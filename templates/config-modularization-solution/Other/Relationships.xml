@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EntityRelationship Name="business_unit_%PREFIX%_config_module" />
+  <EntityRelationship Name="lk_%PREFIX%_config_module_createdby" />
+  <EntityRelationship Name="lk_%PREFIX%_config_module_modifiedby" />
+  <EntityRelationship Name="owner_%PREFIX%_config_module" />
+  <EntityRelationship Name="team_%PREFIX%_config_module" />
+  <EntityRelationship Name="user_%PREFIX%_config_module" />
+</EntityRelationships>

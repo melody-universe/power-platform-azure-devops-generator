@@ -1,0 +1,17 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: BuildConfigurationModularization
+    branch: main
+    source: BuildConfigurationModularization
+    trigger:
+      branches:
+        include:
+        - main
+%MODULES%
+
+jobs:
+  - template: templates/deploy.yml
+    parameters:
+      EnvironmentName: "Production"

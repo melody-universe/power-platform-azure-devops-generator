@@ -1,0 +1,39 @@
+parameters:
+  EnvironmentName: ""
+  Type: "Managed"
+
+jobs:
+- deployment: ${{ parameters.EnvironmentName }}
+  variables:
+  - group: Credentials
+  - group: ${{ parameters.EnvironmentName }}
+  - group: ConnectionString
+  environment: Production
+  pool:
+    vmImage: windows-latest
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - download: BuildConfigurationModularization
+          name: DownloadConfigurationModularization
+        - pwsh: mkdir "$(Pipeline.Workspace)/logs"
+          name: CreateLogsDirectory
+        - task: MSCRMToolInstaller@12
+        - task: MSCRMImportSolution@12
+          inputs:
+            crmConnectionString: '$(ConnectionString)'
+            solutionFile: '$(Pipeline.Workspace)/BuildConfigurationModularization/packed-solution/ConfigurationModularization_managed.zip'
+            logsDirectory: '$(Pipeline.Workspace)/logs'
+            crmConnectionTimeout: '600'
+          name: ImportConfigurationModularization
+        - powershell: Install-Module -Name Microsoft.Xrm.Data.Powershell -Force
+          name: InstallMicrosoftXrmDataPowershell
+          condition: ne(variables.SkipConfigurationData, 'True')
+%MODULES%
+            - task: PublishPipelineArtifact@1
+              condition: always()
+              inputs:
+                targetPath: "$(Pipeline.Workspace)/logs"
+                artifact: "logs"
+                publishLocation: "pipeline"
