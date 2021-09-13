@@ -5,8 +5,9 @@
     "ppad": "dist/main.js"
   },
   "description": "",
+  "main": "dist/main.js",
   "files": [
-    "dist/main.js"
+    "dist/"
   ],
   "scripts": {
     "build": "webpack",
