@@ -5,6 +5,7 @@
     "ppad": "dist/main.js"
   },
   "description": "",
+  "files": ["dist/"],
   "scripts": {
     "build": "webpack",
     "start": "ts-node --transpile-only src"
