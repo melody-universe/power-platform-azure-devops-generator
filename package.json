@@ -1,11 +1,13 @@
 {
   "name": "power-platform-azure-devops-generator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "bin": {
     "ppad": "dist/main.js"
   },
   "description": "",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "webpack",
     "start": "ts-node --transpile-only src"
