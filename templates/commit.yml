@@ -47,7 +47,8 @@ steps:
       Remove-Item `
         -Path "%MODULE_NAME%/content" `
         -Recurse `
-        -Force
+        -Force `
+        -ErrorAction Ignore
       Expand-Archive `
         -Path "$(Pipeline.Workspace)/%MODULE_NAME%_data.zip" `
         -DestinationPath "%MODULE_NAME%/content"
