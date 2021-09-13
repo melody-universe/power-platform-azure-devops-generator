@@ -1,31 +1,42 @@
 import { Command } from "commander";
 import { resolve } from "path";
+import { cwd } from "process";
 import generateConfigSolution from "./generateConfigSolution";
 import generateNewModule from "./generateNewModule";
+import initializeProject from "./initializeProject";
 import refreshModules from "./refreshModules";
 
 const program = new Command();
 program.version(process.env.npm_package_version as string);
 
-const rootArgument = [
-  "[root]",
+const rootOption = [
+  "-r, --root <root>",
   "root folder of the repository",
-  resolve,
-  "..",
+  cwd(),
 ] as const;
 
 program
+  .command("init")
+  .option(
+    "-p, --publisherSolution <publisherSolution>",
+    "name of an empty solution containing the publisher to be used for this project",
+    "Publisher"
+  )
+  .description("initialize a new Azure DevOps project")
+  .action(initializeProject);
+
+program
   .command("new")
-  .argument("<name>", "name of the module")
-  .argument(...rootArgument)
+  .requiredOption("-n, --name <name>", "name of the module")
+  .option(...rootOption)
   .description("generate a new configuration module")
-  .action((name, root) => {
+  .action(({ name, root }: { name: string; root: string }) => {
     generateNewModule(name, root);
   });
 
 program
   .command("refresh")
-  .argument(...rootArgument)
+  .option(...rootOption)
   .description("regenerate all schema and yaml files")
   .action((root) => {
     refreshModules(root);
@@ -33,7 +44,7 @@ program
 
 program
   .command("generate-solution")
-  .argument(...rootArgument)
+  .option(...rootOption)
   .description(
     "generate the configuration modularization solution from a base schema file"
   )

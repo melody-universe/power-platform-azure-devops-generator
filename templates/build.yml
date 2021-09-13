@@ -10,12 +10,19 @@ pool:
   vmImage: windows-latest
 
 steps:
-  - task: MSCRMToolInstaller@12
-  - task: MSCRMPackCMData@12
-    inputs:
-      dataFile: "$(Pipeline.Workspace)/data.zip"
-      extractFolder: "%MODULE_NAME%/content"
-      combineDataXmlFile: true
+  - powershell: |
+      Install-Module `
+        -Name Microsoft.Xrm.Tooling.CrmConnector.PowerShell `
+        -Force
+      Install-Module `
+        -Name Microsoft.Xrm.Tooling.ConfigurationMigration `
+        -Force
+    name: InstallTooling
+  - powershell: |
+      Compress-Archive `
+        -Path "%MODULE_NAME%/content" `
+        -DestinationPath "$(Pipeline.Workspace)/data.zip"
+    name: PackData
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: "$(Pipeline.Workspace)/data.zip"
