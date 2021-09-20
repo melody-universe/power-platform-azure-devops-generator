@@ -10,8 +10,8 @@ export default async function refreshModules(root: any) {
     ...modulesPackage.modules.map((moduleName) =>
       generateModuleFiles(root, moduleName, modulesPackage)
     ),
-    generateDeployTemplate(modulesPackage),
-    generateDeployPipeline("provision-dev.yml", modulesPackage),
-    generateDeployPipeline("deploy.yml", modulesPackage),
+    generateDeployTemplate(root, modulesPackage),
+    generateDeployPipeline(root, "provision-dev.yml", modulesPackage),
+    generateDeployPipeline(root, "deploy.yml", modulesPackage),
   ]);
 }
