@@ -35,9 +35,9 @@ jobs:
 #            crmConnectionTimeout: '600'
 #          name: ImportConfigurationModularization
 %MODULES%
-            - task: PublishPipelineArtifact@1
-              condition: always()
-              inputs:
-                targetPath: "$(Pipeline.Workspace)/logs"
-                artifact: "logs"
-                publishLocation: "pipeline"
+        - task: PublishPipelineArtifact@1
+          condition: always()
+          inputs:
+            targetPath: "$(Pipeline.Workspace)/logs"
+            artifact: "logs"
+            publishLocation: "pipeline"

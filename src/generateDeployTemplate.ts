@@ -16,7 +16,7 @@ export default async function generateDeployTemplate(
     await readFile(deployTemplatePath)
   ).toString();
 
-  const baseIndent = "            ";
+  const baseIndent = "        ";
   const importModulesText = modules.modules
     .map(
       (module) =>
