@@ -1,6 +1,6 @@
 {
   "name": "power-platform-azure-devops-generator",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "bin": {
     "ppad": "dist/main.js"
   },
