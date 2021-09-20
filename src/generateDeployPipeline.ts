@@ -3,6 +3,7 @@ import { join } from "path";
 import { ModulesPackage } from "./getModules";
 
 export default async function generateDeployPipeline(
+  root: string,
   fileName: string,
   modules: ModulesPackage
 ) {
@@ -14,9 +15,9 @@ export default async function generateDeployPipeline(
   const downloadModulesText = modules.modules
     .map(
       (module) =>
-        `    - pipeline: build-${module}\r\n` +
+        `    - pipeline: Build${module}\r\n` +
         "      branch: main\r\n" +
-        `      source: build-${module}\r\n` +
+        `      source: Build${module}\r\n` +
         "      trigger:\r\n" +
         "        branches:\r\n" +
         "          include:\r\n" +
@@ -27,6 +28,6 @@ export default async function generateDeployPipeline(
     /%MODULES%/,
     downloadModulesText
   );
-  const outputPath = join(__dirname, "..", "..", fileName);
+  const outputPath = join(root, fileName);
   await writeFile(outputPath, outputContents);
 }

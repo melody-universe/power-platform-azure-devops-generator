@@ -12,9 +12,9 @@ export default async function generateNewModule(name: string, root: string) {
 
   await Promise.all([
     generateModuleFiles(root, name, modulesPackage),
-    // generateDeployTemplate(modulesPackage),
+    generateDeployTemplate(root, modulesPackage),
     // generateDeployPipeline("provision-dev.yml", modulesPackage),
-    // generateDeployPipeline("deploy.yml", modulesPackage),
+    generateDeployPipeline(root, "deploy.yml", modulesPackage),
     saveModules(modulesPackage, root),
   ]);
 }

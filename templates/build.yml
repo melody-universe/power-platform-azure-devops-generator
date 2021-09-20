@@ -10,8 +10,13 @@ pool:
   vmImage: windows-latest
 
 steps:
+  - powershell: |
+      Compress-Archive `
+        -Path "%MODULE_NAME%/content" `
+        -DestinationPath "$(Pipeline.Workspace)/data.zip"
+    name: PackData
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: "%MODULE_NAME%/content"
+      targetPath: "$(Pipeline.Workspace)/data.zip"
       artifact: "data"
       publishLocation: "pipeline"
