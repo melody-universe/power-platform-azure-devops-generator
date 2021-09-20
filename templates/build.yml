@@ -10,21 +10,8 @@ pool:
   vmImage: windows-latest
 
 steps:
-  - powershell: |
-      Install-Module `
-        -Name Microsoft.Xrm.Tooling.CrmConnector.PowerShell `
-        -Force
-      Install-Module `
-        -Name Microsoft.Xrm.Tooling.ConfigurationMigration `
-        -Force
-    name: InstallTooling
-  - powershell: |
-      Compress-Archive `
-        -Path "%MODULE_NAME%/content" `
-        -DestinationPath "$(Pipeline.Workspace)/data.zip"
-    name: PackData
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: "$(Pipeline.Workspace)/data.zip"
+      targetPath: "%MODULE_NAME%/content"
       artifact: "data"
       publishLocation: "pipeline"
