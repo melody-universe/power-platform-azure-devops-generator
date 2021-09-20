@@ -15,13 +15,13 @@ export default async function generateDeployPipeline(
   const downloadModulesText = modules.modules
     .map(
       (module) =>
-        `    - pipeline: Build${module}\r\n` +
-        "      branch: main\r\n" +
-        `      source: Build${module}\r\n` +
-        "      trigger:\r\n" +
-        "        branches:\r\n" +
-        "          include:\r\n" +
-        "            - main"
+        `  - pipeline: Build${module}\r\n` +
+        "    branch: main\r\n" +
+        `    source: Build${module}\r\n` +
+        "    trigger:\r\n" +
+        "      branches:\r\n" +
+        "        include:\r\n" +
+        "          - main"
     )
     .join("\r\n");
   const outputContents = pipelineTemplateContents.replace(
