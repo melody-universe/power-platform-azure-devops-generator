@@ -14,4 +14,4 @@ resources:
 jobs:
   - template: templates/deploy.yml
     parameters:
-      EnvironmentName: "Production"
+      EnvironmentName: "ConfigEnv"
