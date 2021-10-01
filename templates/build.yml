@@ -12,7 +12,7 @@ pool:
 steps:
   - powershell: |
       Compress-Archive `
-        -Path "%MODULE_NAME%/content" `
+        -Path "%MODULE_NAME%/content/*" `
         -DestinationPath "$(Pipeline.Workspace)/data.zip"
     name: PackData
   - task: PublishPipelineArtifact@1
