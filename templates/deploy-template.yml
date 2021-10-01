@@ -8,7 +8,7 @@ jobs:
   - group: Credentials
   - group: ${{ parameters.EnvironmentName }}
   - group: ConnectionString
-  environment: Production
+  environment: ${{ parameters.EnvironmentName }}
   pool:
     vmImage: windows-latest
   strategy:
