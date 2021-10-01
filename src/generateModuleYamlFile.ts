@@ -19,6 +19,25 @@ export default async function generateModuleYamlFile(
     /%MODULE_NAME%/g,
     moduleName
   );
+  const environmentRegex = /%ENVIRONMENT%/g;
   const buildYamlPath = join(modulePath, yamlFileName);
-  await writeFile(buildYamlPath, buildYamlContents);
+  if (environmentRegex.test(buildYamlContents)) {
+    const devYamlContents = buildYamlContents.replace(environmentRegex, "Dev");
+    await writeFile(buildYamlPath, devYamlContents);
+    await Promise.all(
+      ["Prod"].map(async (environment) => {
+        const envYamlPath = buildYamlPath.replace(
+          /\.yml$/,
+          `-${environment}.yml`
+        );
+        const envYamlContents = buildYamlContents.replace(
+          environmentRegex,
+          environment
+        );
+        await writeFile(envYamlPath, envYamlContents);
+      })
+    );
+  } else {
+    await writeFile(buildYamlPath, buildYamlContents);
+  }
 }
