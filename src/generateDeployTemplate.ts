@@ -22,7 +22,7 @@ export default async function generateDeployTemplate(
       (module) =>
         `${baseIndent}- download: Build${module}\r\n` +
         `${baseIndent}  name: Download${module}\r\n` +
-        `${baseIndent}- powershell: |` +
+        `${baseIndent}- powershell: |\r\n` +
         `${baseIndent}    $conn = Get-CrmConnection -ConnectionString "$(ConnectionString)"\r\n` +
         `${baseIndent}    Import-CrmDataFile \`\r\n` +
         `${baseIndent}      -CrmConnection $conn \`\r\n` +
